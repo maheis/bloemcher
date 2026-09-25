@@ -1,0 +1,13 @@
+.settings {
+    position: fixed;
+    right: 6px;
+    bottom: 6px;
+    z-index: 100;
+}
+
+.index {
+    position: fixed;
+    left: 6px;
+    top: 6px;
+    z-index: 100;
+}
