@@ -2,7 +2,7 @@ name: bloemcher
 description: "A new Flutter project."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -55,11 +55,37 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+
+  fonts:
+    - family: OpenDyslexic
+      fonts:
+        - asset: assets/fonts/OpenDyslexic/OpenDyslexic-Regular.otf
+        - asset: assets/fonts/OpenDyslexic/OpenDyslexic-Bold.otf
+          weight: 700
+    - family: NotoSans
+      fonts:
+        - asset: assets/fonts/Noto_Sans/static/NotoSans-Regular.ttf
+        - asset: assets/fonts/Noto_Sans/static/NotoSans-Bold.ttf
+          weight: 700
+    - family: CourierPrime
+      fonts:
+        - asset: assets/fonts/Courier_Prime/CourierPrime-Regular.ttf
+        - asset: assets/fonts/Courier_Prime/CourierPrime-Bold.ttf
+          weight: 700
+    - family: Ubuntu
+      fonts:
+        - asset: assets/fonts/Ubuntu/Ubuntu-Regular.ttf
+        - asset: assets/fonts/Ubuntu/Ubuntu-Bold.ttf
+          weight: 700
+    - family: Ubuntu Mono
+      fonts:
+        - asset: assets/fonts/Ubuntu/UbuntuMono-Regular.ttf
+        - asset: assets/fonts/Ubuntu/UbuntuMono-Bold.ttf
+          weight: 700
 
   # To add assets to your application, add an assets section, like this:
   # assets:
