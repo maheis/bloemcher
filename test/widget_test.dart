@@ -4,13 +4,19 @@ import 'package:bloemcher/app.dart';
 import 'package:bloemcher/app_controller.dart';
 import 'package:bloemcher/models.dart';
 import 'package:bloemcher/repository/app_repository.dart';
+import 'package:bloemcher/ui_settings.dart';
 
 void main() {
   testWidgets('Bloemcher app loads care overview', (tester) async {
     final controller = AppController(_MemoryAppRepository());
     await controller.load();
 
-    await tester.pumpWidget(BloemcherApp(controller: controller));
+    await tester.pumpWidget(
+      BloemcherApp(
+        controller: controller,
+        settingsController: UiSettingsController.memory(),
+      ),
+    );
 
     expect(find.text('Bloemcher'), findsOneWidget);
     expect(find.text('Heute dran'), findsOneWidget);

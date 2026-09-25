@@ -8,6 +8,7 @@ import 'package:sembast/sembast_io.dart';
 import 'app.dart';
 import 'app_controller.dart';
 import 'repository/app_repository.dart';
+import 'ui_settings.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,6 +23,13 @@ Future<void> main() async {
 
   final controller = AppController(LocalAppRepository(database));
   await controller.load();
+  final settingsController = UiSettingsController(database);
+  await settingsController.load();
 
-  runApp(BloemcherApp(controller: controller));
+  runApp(
+    BloemcherApp(
+      controller: controller,
+      settingsController: settingsController,
+    ),
+  );
 }

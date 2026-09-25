@@ -5,31 +5,40 @@ import 'pages/activities_page.dart';
 import 'pages/overview_page.dart';
 import 'pages/plant_editor_page.dart';
 import 'pages/plants_page.dart';
+import 'ui_settings.dart';
 
 class BloemcherApp extends StatelessWidget {
-  const BloemcherApp({super.key, required this.controller});
+  const BloemcherApp({
+    super.key,
+    required this.controller,
+    required this.settingsController,
+  });
 
   final AppController controller;
+  final UiSettingsController settingsController;
 
   @override
   Widget build(BuildContext context) {
     return AnimatedBuilder(
-      animation: controller,
+      animation: Listenable.merge([controller, settingsController]),
       builder: (context, _) {
+        final settings = settingsController.settings;
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'Bloemcher',
-          theme: ThemeData(
-            useMaterial3: true,
-            colorSchemeSeed: const Color(0xFF2E7D32),
-            brightness: Brightness.light,
+          theme: buildUnifiedTheme(settings, Brightness.light),
+          darkTheme: buildUnifiedTheme(settings, Brightness.dark),
+          themeMode: settings.useLightTheme ? ThemeMode.light : ThemeMode.dark,
+          builder: (context, child) => MediaQuery(
+            data: MediaQuery.of(
+              context,
+            ).copyWith(textScaler: TextScaler.linear(settings.textScaleFactor)),
+            child: child ?? const SizedBox.shrink(),
           ),
-          darkTheme: ThemeData(
-            useMaterial3: true,
-            colorSchemeSeed: const Color(0xFFA5D6A7),
-            brightness: Brightness.dark,
+          home: BloemcherHomePage(
+            controller: controller,
+            settingsController: settingsController,
           ),
-          home: BloemcherHomePage(controller: controller),
         );
       },
     );
@@ -37,9 +46,14 @@ class BloemcherApp extends StatelessWidget {
 }
 
 class BloemcherHomePage extends StatefulWidget {
-  const BloemcherHomePage({super.key, required this.controller});
+  const BloemcherHomePage({
+    super.key,
+    required this.controller,
+    required this.settingsController,
+  });
 
   final AppController controller;
+  final UiSettingsController settingsController;
 
   @override
   State<BloemcherHomePage> createState() => _BloemcherHomePageState();
@@ -57,7 +71,28 @@ class _BloemcherHomePageState extends State<BloemcherHomePage> {
     ];
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Bloemcher'), centerTitle: false),
+      appBar: AppBar(
+        title: const Text('Bloemcher'),
+        centerTitle: false,
+        actions: [
+          IconButton(
+            tooltip: 'Einstellungen',
+            onPressed: () async {
+              final result = await Navigator.of(context).push<AppUiSettings>(
+                MaterialPageRoute(
+                  builder: (_) => UiSettingsPage(
+                    initial: widget.settingsController.settings,
+                  ),
+                ),
+              );
+              if (result != null) {
+                await widget.settingsController.update(result);
+              }
+            },
+            icon: const Icon(Icons.settings_outlined),
+          ),
+        ],
+      ),
       body: pages[_index],
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
